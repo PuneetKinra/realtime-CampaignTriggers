@@ -52,46 +52,46 @@ public class App {
 					getAsJsonObject().get("topics").getAsString().split(","));
 			//Fetching hostnames
 			String hostnames=jsonFileReader.get("AppConfiguration").
-					getAsJsonObject().get("hostnames").getAsString();
+				getAsJsonObject().get("hostnames").getAsString();
 			//Fetching groupid
 			String groupid=jsonFileReader.get("AppConfiguration").
-					getAsJsonObject().get("groupid").getAsString();
+				getAsJsonObject().get("groupid").getAsString();
 			//Fetching ThreadNumber
 			int threadNumber=jsonFileReader.get("AppConfiguration").
-					getAsJsonObject().get("counsumerThreads").getAsInt();
-			
+				getAsJsonObject().get("counsumerThreads").getAsInt();
+
 			String  audittopic=jsonFileReader.get("AppConfiguration").
-					getAsJsonObject().get("audittopic").getAsString();
-			
+				getAsJsonObject().get("audittopic").getAsString();
+
 
 			String serviceName =jsonFileReader.get("AppConfiguration").
-					getAsJsonObject().get("servicename").getAsString();
+				getAsJsonObject().get("servicename").getAsString();
 
 			//Message center information
 			String userName=jsonFileReader.get("messagecenter").
-					getAsJsonObject().get("username").getAsString();
+				getAsJsonObject().get("username").getAsString();
 			String passWord=jsonFileReader.get("messagecenter").
-					getAsJsonObject().get("password").getAsString();
+				getAsJsonObject().get("password").getAsString();
 			String endpoint=jsonFileReader.get("messagecenter").
-					getAsJsonObject().get("endpoint").getAsString();
+				getAsJsonObject().get("endpoint").getAsString();
 			String soapAction=jsonFileReader.get("messagecenter").
-					getAsJsonObject().get("soapaction").getAsString();
+				getAsJsonObject().get("soapaction").getAsString();
 
 			//Database information
 			final String dburl=jsonFileReader.get("datasource").
-					getAsJsonObject().get("url").getAsString();
+				getAsJsonObject().get("url").getAsString();
 			final String dbuser=jsonFileReader.get("datasource").
-					getAsJsonObject().get("username").getAsString();
+				getAsJsonObject().get("username").getAsString();
 			final String dbpwd=jsonFileReader.get("datasource").
-					getAsJsonObject().get("password").getAsString();
+				getAsJsonObject().get("password").getAsString();
 			String dbquery=jsonFileReader.get("datasource").
-					getAsJsonObject().get("query").getAsString();
+				getAsJsonObject().get("query").getAsString();
 
 			//log files
 			String logpath=jsonFileReader.get("AppConfiguration").
-					getAsJsonObject().get("logging").getAsJsonObject().get("logpath").getAsString();
+				getAsJsonObject().get("logging").getAsJsonObject().get("logpath").getAsString();
 			String loglevel=jsonFileReader.get("AppConfiguration").
-					getAsJsonObject().get("logging").getAsJsonObject().get("loglevel").getAsString();
+				getAsJsonObject().get("logging").getAsJsonObject().get("loglevel").getAsString();
 
 
 			final ExecutorService executor = Executors.newFixedThreadPool(threadNumber);
@@ -105,29 +105,30 @@ public class App {
 			}
 
 
-			
+
+			System.out.println("ShutDown Hook Called..");
 			//For Shuting down  the App
-			
+
 			Runtime.getRuntime().addShutdownHook(new Thread() 
-			{ 
-				
-				public void run() 
-				{ 
+					{ 
+
+					public void run() 
+					{ 
 					System.out.println("ShutDown Hook Called..");
 					DataBaseDAO instance;
 					try {
-						System.out.println("Closing the Database connection");
-						instance = DataBaseDAO.getInstance(dburl,dbuser,dbpwd);
-						Connection connection = instance.getConnection();
-						connection.close();
+					System.out.println("Closing the Database connection");
+					instance = DataBaseDAO.getInstance(dburl,dbuser,dbpwd);
+					Connection connection = instance.getConnection();
+					connection.close();
 					} catch (Exception e1) {
-						// TODO Auto-generated catch block
-						System.out.println("Exception While Closing the Database connection");
-						
+					// TODO Auto-generated catch block
+					System.out.println("Exception While Closing the Database connection");
+
 					}
 
 					for(EventsConsumer eventConsumerThread:threads) {
-						eventConsumerThread.shutdown();
+					eventConsumerThread.shutdown();
 					}
 					executor.shutdown();
 					try {
@@ -136,13 +137,13 @@ public class App {
 						// TODO Auto-generated catch block
 						System.out.println("Exception While awaiting for the Termination of Threads"+e);
 					}
-					
-				} 
-			});  
+
+					} 
+					});  
 		}catch(Exception e) {
-					System.out.println("Exeception in main during submission of the job"+e);
+			System.out.println("Exeception in main during submission of the job"+e);
 		}
-		
+
 	}
 }
 
