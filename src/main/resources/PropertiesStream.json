@@ -4,7 +4,7 @@
 			"logpath": "D:\\kafka_2.11-2.1.0\\app-logs\\",
 			"loglevel": "debug"
 		},
-		"counsumerThreads":1,
+		"counsumerThreads":10,
 		"topics": "Test",
 		"hostnames": "localhost:9092",
 		"groupid": "adobe",
