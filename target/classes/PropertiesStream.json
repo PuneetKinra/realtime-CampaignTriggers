@@ -1,0 +1,28 @@
+	{
+	"AppConfiguration": {
+		"logging": {
+			"logpath": "D:\\kafka_2.11-2.1.0\\app-logs\\",
+			"loglevel": "debug"
+		},
+		"counsumerThreads":1,
+		"topics": "Test",
+		"hostnames": "localhost:9092",
+		"groupid": "adobe",
+		"audittopic":"audit",
+		"servicename":"kafka"
+	},
+	"messagecenter": {
+		"username": "mc",
+		"password": "fcMqX5dJrINv",
+		"endpoint": "https://yesbank-rt-stage2.campaign.adobe.com/nl/jsp/soaprouter.jsp",
+		"soapaction": "nms:rtEvent#PushEvent"
+	},
+	"datasource":{
+		"url":"jdbc:oracle:thin:@192.168.1.8:1521:SYS08ORA",
+		"username":"PUNEET_TEST1",
+		"password":"PUNEET_TEST1",
+		"query":"SELECT tblcus.*, tblevent.* FROM (SELECT cus.*, apps.SREGISTRATIONTOKEN FROM yblcustomermaster cus LEFT OUTER JOIN NMSAPPSUBSCRIPTIONRCP apps ON cus.scod_cust_id = apps.SUSERKEY where cus.scod_cust_id=? ) tblcus,(SELECT * FROM (SELECT evt.ikafkaeventtypeid, evt.iisemailenabled AS sflag, evt.semailtemplateevent evtstatus, evt.smsgcentereventid,'semailtemplateevent' AS eventname , '0' wishchannel FROM  yblkafkaeventtype evt UNION ALL SELECT evt.ikafkaeventtypeid, evt.iispushandroidenabled AS sflag, evt.spushtemplateeventandroid evtstatus, evt.smsgcentereventid,'spushtemplateeventandroid' AS eventname, '42' wishchannel FROM  yblkafkaeventtype evt UNION ALL SELECT evt.ikafkaeventtypeid, evt.iispushiosenabled AS sflag, evt.spushtemplateeventios evtstatus, evt.smsgcentereventid,'spushtemplateeventios' AS eventname, '41' wishchannel FROM  yblkafkaeventtype evt UNION ALL SELECT evt.ikafkaeventtypeid, evt.iissmsenabled AS sflag, evt.ssmstemplateevent evtstatus, evt.smsgcentereventid,'ssmstemplateevent' AS eventname, '2' wishchannel FROM  yblkafkaeventtype evt ) tab WHERE tab.smsgcentereventid=? AND tab.sflag = 1 ) tblevent"
+		
+	
+	}
+}
