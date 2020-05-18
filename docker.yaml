@@ -1,0 +1,7 @@
+version
+services:
+   first-service:
+     build:
+     ports:
+	-- 	
+
